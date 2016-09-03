@@ -1,0 +1,9 @@
+PKG_CPPFLAGS = -I.
+PKG_LIBS = -L./loader -lOpenCL
+
+$(SHLIB): loader/libOpenCL.a
+
+loader/libOpenCL.a:
+	cd loader && $(MAKE) libOpenCL.a \
+	CC="$(CC)" CFLAGS="$(ALL_CFLAGS)" AR="$(AR)" RM="$(RM)" \
+	ICD_OS=icd_windows
