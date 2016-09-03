@@ -2,7 +2,7 @@ Package: miniGPU
 Type: Package
 Title: A Minimal Example of Using OpenCL in R Packages
 Version: 0.1.0
-Author: Yixuan Qiu
+Author: Yixuan Qiu, and authors of OpenCL headers and ICD loader
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
 Description: Building OpenCL programs in R packages
 License: MIT
