@@ -35,6 +35,8 @@
  * OpenCL is a trademark of Apple Inc. used under license by Khronos.
  */
 
+#define _WIN32_WINNT 0x0600
+
 #include "icd.h"
 #include <stdio.h>
 #include <windows.h>
@@ -43,12 +45,12 @@
 static INIT_ONCE initialized = INIT_ONCE_STATIC_INIT;
 
 /*
- * 
+ *
  * Vendor enumeration functions
  *
  */
 
-// go through the list of vendors in the registry and call khrIcdVendorAdd 
+// go through the list of vendors in the registry and call khrIcdVendorAdd
 // for each vendor encountered
 BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *lpContext)
 {
@@ -75,7 +77,7 @@ BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVO
     {
         char cszLibraryName[1024] = {0};
         DWORD dwLibraryNameSize = sizeof(cszLibraryName);
-        DWORD dwLibraryNameType = 0;     
+        DWORD dwLibraryNameType = 0;
         DWORD dwValue = 0;
         DWORD dwValueSize = sizeof(dwValue);
 
@@ -91,15 +93,15 @@ BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVO
               (LPBYTE)&dwValue,
               &dwValueSize);
         // if RegEnumKeyEx fails, we are done with the enumeration
-        if (ERROR_SUCCESS != result) 
+        if (ERROR_SUCCESS != result)
         {
             KHR_ICD_TRACE("Failed to read value %d, done reading key.\n", dwIndex);
             break;
         }
         KHR_ICD_TRACE("Value %s found...\n", cszLibraryName);
-        
+
         // Require that the value be a DWORD and equal zero
-        if (REG_DWORD != dwLibraryNameType)  
+        if (REG_DWORD != dwLibraryNameType)
         {
             KHR_ICD_TRACE("Value not a DWORD, skipping\n");
             continue;
@@ -119,7 +121,7 @@ BOOL CALLBACK khrIcdOsVendorsEnumerate(PINIT_ONCE InitOnce, PVOID Parameter, PVO
     {
         KHR_ICD_TRACE("Failed to close platforms key %s, ignoring\n", platformsName);
     }
-	
+
     return TRUE;
 }
 
@@ -128,9 +130,9 @@ void khrIcdOsVendorsEnumerateOnce()
 {
     InitOnceExecuteOnce(&initialized, khrIcdOsVendorsEnumerate, NULL, NULL);
 }
- 
+
 /*
- * 
+ *
  * Dynamic library loading functions
  *
  */
