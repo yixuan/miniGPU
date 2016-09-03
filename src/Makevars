@@ -1,0 +1,17 @@
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
+    PKG_CXXFLAGS += -framework OpenCL
+    LOADER =
+else
+    PKG_CPPFLAGS += -I. -pthread
+    PKG_LIBS += -L./loader -lOpenCL -pthread
+    LOADER = loader/libOpenCL.a
+endif
+
+$(SHLIB): $(LOADER)
+
+loader/libOpenCL.a:
+	cd loader && $(MAKE) libOpenCL.a \
+	CC="$(CC)" CFLAGS="$(ALL_CFLAGS)" AR="$(AR)" RM="$(RM)" \
+	ICD_OS=icd_linux
