@@ -1,11 +1,12 @@
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Darwin)
-    PKG_CXXFLAGS += -framework OpenCL
+    PKG_CXXFLAGS = -framework OpenCL
+    PKG_LIBS = -framework OpenCL
     LOADER =
 else
-    PKG_CPPFLAGS += -I. -pthread
-    PKG_LIBS += -L./loader -lOpenCL -pthread
+    PKG_CPPFLAGS = -I. -pthread
+    PKG_LIBS = -L./loader -lOpenCL -pthread
     LOADER = loader/libOpenCL.a
 endif
 
