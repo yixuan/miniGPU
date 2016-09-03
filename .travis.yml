@@ -5,6 +5,4 @@ os:
   - linux
   - osx
 
-compiler:
-  - gcc
-  - clang
+latex: false
