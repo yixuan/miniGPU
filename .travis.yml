@@ -1,0 +1,10 @@
+language: r
+cache: packages
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
